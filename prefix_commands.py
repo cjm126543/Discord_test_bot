@@ -1,11 +1,11 @@
 # Standard and discord libraries imports
-import os
 import discord
+from discord.utils import get
 
 # Define behaviour for when an user summons the prefix
 class PrefixListener(discord.Client):
 
-    async def on_message(self, message):
+    async def on_message(self, message, environ):
 
         # First, ignore the prefix if it's written by the bot
         if message.author == self.user:

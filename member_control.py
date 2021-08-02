@@ -1,7 +1,7 @@
 # Standard and discord libraries imports
-import environ_base
 import os
 import discord
+from discord.utils import get
 
 # Define behaviour for administrate guild's users
 class MemberListener(discord.Client):
@@ -23,3 +23,7 @@ class MemberListener(discord.Client):
         
         # Send the file
         await channel.send(file=picture)
+
+        # Assign basic role to new user
+        role = get(member.guild.roles, name="rol basico")
+        await member.add_roles(role)

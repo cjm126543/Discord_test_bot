@@ -46,13 +46,12 @@ async def on_ready():
 # Prefix summon behaviour (specified in prefix_commands.py file)
 @base_client.event
 async def on_message(message):
-    print(f'Now listening to prefix petitions...')          # Prints message twice, dkw
-    await listener.on_message(message)
+    await listener.on_message(message, environ_vars)
 
 # New member joining behaviour (specified in member_control.py file)
 @base_client.event
 async def on_member_join(member):
-    print(f'New member {member.name} has joined the guild')
+    print(f'New member, {member.name} has joined the guild')
     await member_admin.on_member_join(base_client, member, environ_vars)
 
 # Run standard client
