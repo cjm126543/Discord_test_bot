@@ -6,7 +6,6 @@ import discord
 class PrefixListener(discord.Client):
 
     async def on_message(self, message):
-        print(f'Now listening to prefix petitions...')          # Prints message twice, dkw
 
         # First, ignore the prefix if it's written by the bot
         if message.author == self.user:
