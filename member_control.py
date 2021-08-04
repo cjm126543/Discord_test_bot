@@ -28,11 +28,11 @@ class MemberListener(discord.Client):
         await channel.send(file=picture)
 
         # Assign basic role to new user
-        role = get(member.guild.roles, name="rol basico")
+        role = get(member.guild.roles, name=environ.BASIC_ROLE_NAME)
         await member.add_roles(role)
 
     # Whenever an user tries to change role, neglect it if he hasn't enough permisions
-    async def on_member_update(self, before, after):
+    async def on_member_update(self, before, after, environ):
         # First of all, get the new role/s user tries to achieve
         old_roles = set()          # Set for user's old roles
         new_roles = set()          # Set for user's new roles
@@ -66,19 +66,20 @@ class MemberListener(discord.Client):
         second_thread.start()
 
         # TODO
+        
 
         dif_set = new_roles.difference(old_roles)  
         # End of region  
         
         for role in before.guild.roles:
-            if role.name == 'Administrator':
+            if role.name == environ.ADMIN_ROLE_NAME:
                 print(f'User: {after.name} has updated his roles to:\n')
                 for role in dif_set:
                     print(f'\n - {role.name}')
                 return                           # Stop searching, user is admin
         
         # If function continues, we assume user changed roles and hasn't got permisions
-        role = get(after.guild.roles, name="Administrator")
+        role = get(after.guild.roles, name=environ.ADMIN_ROLE_NAME)
         await after.remove_roles(role, f'{after.name} no tienes permiso para realizar esta accion')
 
 # Private threading method

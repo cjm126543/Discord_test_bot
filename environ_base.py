@@ -9,6 +9,8 @@ class Environ:
     GUILD_NAME = None
     GENERAL_CHANNEL = None
     BASIC_ROLE_ID = None
+    BASIC_ROLE_NAME = None
+    ADMIN_ROLE_NAME = None
 
     def __init__(self):
         
@@ -19,5 +21,7 @@ class Environ:
         self.GUILD_NAME = os.getenv('DISCORD_GUILD_NAME')
         self.GENERAL_CHANNEL = int(os.getenv('GENERAL_CHANNEL'))
         self.BASIC_ROLE_ID = os.getenv('BASIC_ROLE_ID')
+        self.BASIC_ROLE_NAME = os.getenv('BASIC_ROLE_NAME')
+        self.ADMIN_ROLE_NAME = os.getenv('ADMIN_ROLE_NAME')
 
         print(f'All enviromental variables loaded successfuly')
