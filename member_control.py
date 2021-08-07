@@ -5,6 +5,11 @@ import threading
 import discord
 from discord.utils import get
 
+# Private threading method
+def procesa_roles(roles, conjunto):
+    for rol in roles:
+        conjunto.add(rol)
+
 # Define behaviour for administrate guild's users
 class MemberListener(discord.Client):
     
@@ -61,8 +66,3 @@ class MemberListener(discord.Client):
         # If function continues, we assume user changed roles and hasn't got permisions
         role = get(after.guild.roles, name=environ.ADMIN_ROLE_NAME)
         await after.remove_roles(role, f'{after.name} no tienes permiso para realizar esta accion')
-
-# Private threading method
-def procesa_roles(roles, conjunto):
-    for rol in roles:
-        conjunto.add(rol)

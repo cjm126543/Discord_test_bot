@@ -54,5 +54,10 @@ async def on_member_join(member):
     print(f'New member, {member.name} has joined the guild')
     await member_admin.on_member_join(base_client, member, environ_vars)
 
+# Member roles try to update (specified in member_control.py file)
+@base_client.event
+async def on_member_update(before, after):
+    await member_admin.on_member_update(before, after, environ_vars)
+
 # Run standard client
 base_client.run(environ_vars.TOKEN)
