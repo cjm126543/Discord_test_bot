@@ -37,39 +37,19 @@ class MemberListener(discord.Client):
         old_roles = set()          # Set for user's old roles
         new_roles = set()          # Set for user's new roles
         
-        # This region could be multi-threaded
-        '''
-            In: Conjunto A, Conjunto B
-            Out: Conjunto C (Intersección negada de A y B)
-            Politica: FIFO, asignación estática
-
-            Comienza método:
-                Res_1 = Set()
-                Res_2 = Set()
-                Hilo maestro crea 2 hilos
-
-                Hilo_A(procesa_roles(), Conjunto A, Conjunto Res_1)
-                Hilo_B(procesa_roles(), Conjunto B, Conjunto Res_2)
-                
-                Mientras Hilo_A trabajando o Hilo_B trabajando haz
-                    Espera a que termine el hilo
-                Sincroniza ambos con el hilo maestro
-                
-                Conjunto C = no (Conjunto Res_1 ^ Conjunto Res_2)
-
-            Fin método
-        '''
+        ### This region is multi-threaded (watch out for possible condition races) ###
         first_thread = threading.Thread(target=procesa_roles, args=(before.guild.roles, old_roles))
         second_thread = threading.Thread(target=procesa_roles, args=(after.guild.roles, new_roles))
 
         first_thread.start() 
         second_thread.start()
 
-        # TODO
-        
+        # Wait for both threads to finish
+        first_thread.join()
+        second_thread.join()
 
         dif_set = new_roles.difference(old_roles)  
-        # End of region  
+        ### End of region ###
         
         for role in before.guild.roles:
             if role.name == environ.ADMIN_ROLE_NAME:
@@ -83,6 +63,6 @@ class MemberListener(discord.Client):
         await after.remove_roles(role, f'{after.name} no tienes permiso para realizar esta accion')
 
 # Private threading method
-def procesa_roles(conjunto, res):
-    for rol in conjunto:
-        res.add(rol)
+def procesa_roles(roles, conjunto):
+    for rol in roles:
+        conjunto.add(rol)
