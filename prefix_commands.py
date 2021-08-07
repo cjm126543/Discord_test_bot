@@ -17,6 +17,6 @@ class PrefixListener(discord.Client):
             response = "Ahora mismo la aplicación esta en desarrollo"
             await message.channel.send(response)
 
-        # Other behaviours depending on the command
+        # TODO Other behaviours depending on the command
         if message.content == ".TODO":
             pass
